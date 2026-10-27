@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join a table — Kitchen Table: Five Hundred</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; --bg: #0d2a33; --ink: #f1ead8; --mute: #b9c6c2; --gold: #e8c98a; --you: #9ad1b5; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 Georgia, "Iowan Old Style", serif; }
+  main { max-width: 32rem; margin: 0 auto; padding: 48px 20px 64px; text-align: center; }
+  h1 { font-weight: 500; font-size: 1.6rem; margin: 0 0 8px; }
+  .sub { color: var(--mute); }
+  .code { font: 600 2.4rem/1.2 ui-monospace, monospace; letter-spacing: 0.25em; color: var(--gold); margin: 24px 0; }
+  .btn { display: inline-block; background: var(--you); color: #0d2a33; text-decoration: none; font-weight: 600; padding: 14px 28px; border-radius: 12px; margin: 8px 0; }
+  a { color: var(--gold); }
+</style>
+</head>
+<body>
+<main>
+  <h1>You're invited to a table</h1>
+  <p class="sub">Kitchen Table: Five Hundred</p>
+  <div class="code" id="code" aria-label="Table code"></div>
+  <p id="open-wrap"><a class="btn" id="open" href="#">Open in the app</a></p>
+  <p class="sub" id="how">No app yet? Install Kitchen Table: Five Hundred from the App Store, open Live Game, choose Join with code and enter the code above.</p>
+  <p class="sub"><a href="../#privacy">Privacy</a> · <a href="../#support">Support</a></p>
+</main>
+<script>
+  var c = (new URLSearchParams(location.search).get("code") || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+  var el = document.getElementById("code");
+  if (c) {
+    el.textContent = c;
+    document.getElementById("open").href = "kitchentable500://join/" + c;
+  } else {
+    el.textContent = "";
+    document.getElementById("open-wrap").hidden = true;
+    document.getElementById("how").textContent = "This invite link is missing its table code. Ask the host to send it again, or join from Live Game with the code.";
+  }
+</script>
+</body>
+</html>
