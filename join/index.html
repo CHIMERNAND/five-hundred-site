@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Join a table — Kitchen Table: Five Hundred</title>
 <meta name="robots" content="noindex">
+<!-- Safari shows the App Clip card (or the app banner) for invite links. The clip opens straight on this table. -->
+<meta name="apple-itunes-app" content="app-id=6827233529, app-clip-bundle-id=com.drewclarke.fivehundred.Clip, app-clip-display=card">
 <style>
   :root { color-scheme: dark; --bg: #0d2a33; --ink: #f1ead8; --mute: #b9c6c2; --gold: #e8c98a; --you: #9ad1b5; }
   * { box-sizing: border-box; }
@@ -28,7 +30,19 @@
   <p class="sub"><a href="../#privacy">Privacy</a> · <a href="../#support">Support</a></p>
 </main>
 <script>
-  var c = (new URLSearchParams(location.search).get("code") || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+  // Game Center's link for "Join a friend's table" carries a party code (?c=XXXX-XXXX) instead of the table code.
+  // Same mapping as codeToParty/partyToCode in the app (artifacts/web/index.html).
+  function partyToCode(party) {
+    var P = "23456789CFGHJMPQRVWX", T = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    var t = String(party || "").toUpperCase().replace(/[^0-9A-Z]/g, ""), n = 0, o = "", i, k;
+    if (t.length !== 8) return "";
+    for (i = 0; i < 8; i++) { k = P.indexOf(t[i]); if (k < 0) return ""; n = n * 20 + k; }
+    if (n >= Math.pow(32, 6)) return "";
+    for (i = 0; i < 6; i++) { o = T[n % 32] + o; n = Math.floor(n / 32); }
+    return o;
+  }
+  var q = new URLSearchParams(location.search);
+  var c = (q.get("code") || partyToCode(q.get("c")) || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
   var el = document.getElementById("code");
   if (c) {
     el.textContent = c;
